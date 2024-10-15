@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+    environment {
+        AWS_ACCESS_KEY_ID = credentials('aws-access-key') // Create Jenkins credentials with your AWS access key
+        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-key') // Jenkins credentials for AWS secret key
+        AWS_DEFAULT_REGION = 'us-east-1' // Change to your desired region
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/theidealnurse/aws-tf.git'
+            }
+        }
+        stage('Terraform Init') {
+            steps {
+            
+                sh 'terraform --version'
+                sh 'terraform init'
+
+            }
+        }
+        stage('Terraform Plan') {
+            steps {
+                sh 'terraform plan -out=tfplan'
+            }
+        }
+        stage('Terraform Apply') {
+            steps {
+                input 'Approve Terraform Apply?'
+                sh 'terraform apply tfplan'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Infrastructure provisioned successfully!'
+        }
+        failure {
+            echo 'Infrastructure provisioning failed!'
+        }
+    }
+}
