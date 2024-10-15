@@ -1,14 +1,14 @@
 pipeline {
     agent any
     environment {
-        AWS_ACCESS_KEY_ID = credentials('aws-access-key') // Create Jenkins credentials with your AWS access key
-        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-key') // Jenkins credentials for AWS secret key
+        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID') // Create Jenkins credentials with your AWS access key
+        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY') // Jenkins credentials for AWS secret key
         AWS_DEFAULT_REGION = 'us-east-1' // Change to your desired region
     }
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/theidealnurse/aws-tf.git'
+                git url: 'https://github.com/theidealnurse/aws-tf.git', branch: 'main'
             }
         }
         stage('Terraform Init') {
