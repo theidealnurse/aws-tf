@@ -38,6 +38,13 @@ pipeline {
             }
         }
     }
+        stage('Terraform Destroy') {
+            steps {
+                input 'Approve Terraform Destroy?'
+                sh 'terraform destroy -auto-approve' // Automatically destroy the resources
+            }
+        }
+    }
 
     post {
         success {
