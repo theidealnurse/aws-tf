@@ -4,6 +4,7 @@ pipeline {
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID') // Create Jenkins credentials with your AWS access key
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY') // Jenkins credentials for AWS secret key
         AWS_DEFAULT_REGION = 'us-east-1' // Change to your desired region
+        GODEBUG = 'asyncpreemptoff=1'  // Add the GODEBUG environment variable
     }
     stages {
         stage('Checkout') {
