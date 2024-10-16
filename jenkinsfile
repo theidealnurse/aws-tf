@@ -29,13 +29,17 @@ pipeline {
         }
         stage('Terraform Plan') {
             steps {
-                sh 'terraform plan -out=tfplan'
+                // Explicitly set GODEBUG for Plan stage with Terraform command
+                sh 'export GODEBUG=asyncpreemptoff=1; terraform plan -out=tfplan'
             }
         }
+
+    
         stage('Terraform Apply') {
             steps {
-                input 'Approve Terraform Apply?'
-                sh 'terraform apply tfplan'
+                input 'Approve Terraform Apply?'  // Manual approval before apply
+                // Explicitly set GODEBUG for Apply stage with Terraform command
+                sh 'export GODEBUG=asyncpreemptoff=1; terraform apply tfplan'
             }
         }
     }
