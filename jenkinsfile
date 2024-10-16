@@ -14,10 +14,17 @@ pipeline {
         }
         stage('Terraform Init') {
             steps {
-            
-                sh 'terraform --version'
-                sh 'terraform init'
+                // Explicitly set GODEBUG for Init stage with Terraform commands
+                sh 'export GODEBUG=asyncpreemptoff=1; terraform --version'
+                sh 'export GODEBUG=asyncpreemptoff=1; terraform init'
+                
 
+            }
+        }
+        stage('Terraform Validate') {
+            steps {
+                // Explicitly set GODEBUG for Validate stage with Terraform command
+                sh 'export GODEBUG=asyncpreemptoff=1; terraform validate'
             }
         }
         stage('Terraform Plan') {
