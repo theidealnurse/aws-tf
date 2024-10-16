@@ -34,10 +34,10 @@ pipeline {
         stage('Terraform Apply') {
             steps {
                 input 'Approve Terraform Apply?'
+                sh 'terraform apply -auto-approve tfplan' // Optional: Add -auto-approve if no manual approval is needed
                 sh 'terraform apply tfplan'
             }
         }
-    }
         stage('Terraform Destroy') {
             steps {
                 input 'Approve Terraform Destroy?'
@@ -55,3 +55,4 @@ pipeline {
         }
     }
 }
+
